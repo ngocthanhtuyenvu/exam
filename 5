@@ -1,0 +1,32 @@
+import openpyxl
+import math
+
+# Load the Excel file
+file_path = 'sagatave_eksamenam.xlsx'
+workbook = openpyxl.load_workbook(file_path)
+sheet = workbook['Lapa_0']
+
+# Initialize total sum
+total_sum = 0
+
+# Column indices (0-based):
+# Klients (Client type) is column F (index 5)
+# Skaits (Quantity) is column L (index 11)
+# Kopā (Total) is column N (index 13)
+
+for row in sheet.iter_rows(min_row=4, values_only=True):  # Skip header row
+    client_type = row[5]  # Column F (Klients)
+    quantity = row[11]    # Column L (Skaits)
+    total = row[13]       # Column N (Kopā)
+    
+    # Check conditions
+    if (client_type == "Korporatīvais" and 
+        isinstance(quantity, (int, float)) and 
+        40 <= quantity <= 50 and
+        isinstance(total, (int, float))):
+        total_sum += total
+
+# Round down to integer
+rounded_total = math.floor(total_sum)
+
+print(f"Total sum for corporate clients with quantity 40-50 (rounded down): {rounded_total}")

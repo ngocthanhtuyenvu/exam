@@ -1,0 +1,23 @@
+import openpyxl
+
+# Load the Excel file
+file_path = 'sagatave_eksamenam.xlsx'
+workbook = openpyxl.load_workbook(file_path)
+sheet = workbook['Lapa_0']
+
+# Initialize counter
+count = 0
+
+# Column indices (0-based):
+# Adrese (Address) is column D (index 3)
+# Pilsēta (City) is column E (index 4)
+
+for row in sheet.iter_rows(min_row=4, values_only=True):  # Skip header row
+    address = row[3]  # Column D (Adrese)
+    city = row[4]     # Column E (Pilsēta)
+    
+    # Check if address is "Adulienas iela" and city is Valmiera or Saulkrasti
+    if address == "Adulienas iela" and city in ["Valmiera", "Saulkrasti"]:
+        count += 1
+
+print(f"Number of entries with 'Adulienas iela' in Valmiera or Saulkrasti: {count}")

@@ -1,0 +1,20 @@
+import openpyxl
+
+# Load the Excel file
+file_path = 'sagatave_eksamenam.xlsx'
+workbook = openpyxl.load_workbook(file_path)
+sheet = workbook['Lapa_0']
+
+# Initialize counter
+count = 0
+
+# Iterate through each row in the sheet (skip header row)
+for row in sheet.iter_rows(min_row=4, values_only=True):
+    address = row[3]  # Column D (4th column) contains the address
+    quantity = row[11]  # Column L (12th column) contains the quantity (Skaits)
+    
+    # Check if address starts with "Ain" and quantity is less than 40
+    if isinstance(address, str) and address.startswith('Ain') and quantity is not None and quantity < 40:
+        count += 1
+
+print(f"Number of records with addresses starting with 'Ain' and count less than 40: {count}")

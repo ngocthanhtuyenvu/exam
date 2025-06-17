@@ -1,0 +1,29 @@
+import openpyxl
+import math
+
+# Load the Excel file
+file_path = 'sagatave_eksamenam.xlsx'
+workbook = openpyxl.load_workbook(file_path)
+sheet = workbook['Lapa_0']
+
+# Initialize variables
+total_sum = 0
+count = 0
+
+# Corrected column indices (0-based):
+# Produkts (Product) is column I (index 8)
+# Cena (Price) is column K (index 10)
+
+for row in sheet.iter_rows(min_row=4, values_only=True):  # Skip header row
+    product = row[8]  # Column I (Produkts)
+    price = row[10]   # Column K (Cena)
+    
+    # Check if product contains "LaserJet" and price is numeric
+    if isinstance(product, str) and "LaserJet" in product and isinstance(price, (int, float)):
+        total_sum += price
+        count += 1
+
+# Calculate average (rounded down)
+average = math.floor(total_sum / count) if count > 0 else 0
+
+print(f"Average price for LaserJet products (rounded down): {average}")
